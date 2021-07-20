@@ -19,7 +19,7 @@
 
 <main>
 	<h1>Welcome to the Hobby Land</h1>
-	<h2>A Svelte Project Showcase</h2>
+	<h2>Track Your Hobbies to Get Better</h2>
 
 	<section>
 		<div> 
@@ -37,17 +37,17 @@
 		</div>
 		<Button on:click={addHobby}>Track It</Button>
 	</section>
-
-	{#if hobbies.length === 0}
-		<p>
-			No Hobbies? Oh dear, please add one. 
-		</p>
-	{:else}
-		{#each hobbies as hobby}
-			<Hobby name={hobby.name} weight={hobby.weight} description={hobby.description}/>
-		{/each}
-	{/if}
-
+	<div class="hobby-list">
+		{#if hobbies.length === 0}
+			<p>
+				No Hobbies? Oh dear, please add one. 
+			</p>
+		{:else}
+			{#each hobbies as hobby}
+				<Hobby name={hobby.name} weight={hobby.weight} description={hobby.description}/>
+			{/each}
+		{/if}
+	</div>
 	<footer>
 		<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
 	</footer>
@@ -70,6 +70,15 @@
 
 	p {
 		margin: 0.5rem;
+	}
+
+	.hobby-list {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		align-content: center;
+		justify-content: center;
+		align-items: center;
 	}
 
 	input[type="range"] {

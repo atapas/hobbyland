@@ -18,4 +18,10 @@
 		font-size: 2em;
 		font-weight: 100;
 	}
+
+    div {
+        padding: 1rem;
+        margin: 1rem;
+        border: 1px solid #ececec;
+    }
 </style>
