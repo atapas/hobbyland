@@ -3,7 +3,7 @@
 	import Button from './Button.svelte';
 
 	let name = '';
-    let weight = 0;
+    let weight = 1;
     let description = '';
     let hobbies =[];
 
@@ -28,18 +28,19 @@
 		</div>
 		<div>
 			<label for="description"></label>
-			<input type="text" id="description" bind:value={description} placeholder="Tell us a bit more about it" />
+			<textarea rows="3" cols="35" id="description" bind:value ={description}  placeholder="Tell us a bit more about it"/>
 		</div>
 		<div>
-			<label for="weight">Rate it(0 to 10)</label>
-			<input type="number" id="weight" bind:value={weight}/>
+			<label for="weight">Do you love doing it?(1 - Least to 10 - Most)</label>
+			<input type="range" min="1" max="10" id="weight" bind:value={weight} />
+			<p>{weight}</p>
 		</div>
 		<Button on:click={addHobby}>Track It</Button>
 	</section>
 
 	{#if hobbies.length === 0}
 		<p>
-		No Hobbies? Oh dear, please add one. 
+			No Hobbies? Oh dear, please add one. 
 		</p>
 	{:else}
 		{#each hobbies as hobby}
@@ -67,6 +68,18 @@
 		font-weight: 100;
 	}
 
+	p {
+		margin: 0.5rem;
+	}
+
+	input[type="range"] {
+		padding: 0;
+		margin-top: 0.4em;
+		width: 200px;
+	}
+	input[type="text"] {
+		width: 282px;
+	}
 	@media (min-width: 640px) {
 		main {
 			max-width: none;
