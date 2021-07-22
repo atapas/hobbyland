@@ -1,6 +1,13 @@
 <script>
+	import { Bugfender } from '@bugfender/sdk';
 	import Hobby from './Hobby.svelte';
 	import Button from './Button.svelte';
+
+	Bugfender.init({
+        appKey: process.env.SVELTE_APP_BUGFENDER_KEY,
+    });
+
+	Bugfender.info(`Initialized Bugfender`);
 
 	let name = '';
     let weight = 1;
