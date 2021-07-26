@@ -22,9 +22,9 @@
     }
 
     .disabled {
-        background-color:  #ebebeb;
+        background-color:  #c1bcbce4;
         color: #000000;
-        border: 1px solid  #ebebeb ;
+        border: 1px solid  #c1bcbce4 ;
         cursor: default;
     }
   

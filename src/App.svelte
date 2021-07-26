@@ -40,7 +40,7 @@
 		
 		if (isEditMode) {
 			editHobby(id, name, weight, description, look);
-			isEditMode = false;
+			
 		} else {
 			const hobby = {
 				id: generate(),
@@ -50,7 +50,7 @@
 				look: look
 			};
 			hobbies = hobbies.concat(hobby);
-			saveToLS('hobbies', hobbies);
+			resetAndSave(hobbies);
 		}
     }
 
@@ -62,7 +62,7 @@
 		hobbies.splice(index, 1);
 		hobbies = [...hobbies];
 		console.log('hobbies after delete', hobbies);
-		saveToLS('hobbies', hobbies);
+		resetAndSave(hobbies);
 	};
 
 	const editHobby = (id, newName, newWeight, newDescription, newLook) => {
@@ -76,7 +76,7 @@
 		hobbies[index].look = newLook;
 		hobbies = [...hobbies];
 		console.log('hobbies after edit', hobbies);
-		saveToLS('hobbies', hobbies);
+		resetAndSave(hobbies);
 	};
 
 	const editMode = (hobbyId) => {
@@ -89,13 +89,17 @@
 		description = hobby.description;
 		isEditMode = true;
 	}
-
-	const cancelEdit = () => {
+	const reset = () => {
 		id = '';
 		name = '';
 		weight = 1;
 		description = '';
 		isEditMode = false;
+	}
+
+	const resetAndSave = hobbies => {
+		reset();
+		saveToLS('hobbies', hobbies);
 	}
 </script>
 
@@ -117,7 +121,7 @@
 				<p style="background-color: {getHobbyLook(weight).background}; color: {getHobbyLook(weight).color};">{weight}</p>
 			</div>
 			{#if isEditMode}
-				<Button on:click={cancelEdit} negative={true}>Cancel</Button>
+				<Button on:click={reset} negative={true}>Cancel</Button>
 				<Button on:click={addHobby}>Edit Hobby</Button>
 			{:else}
 				<Button on:click={addHobby} isDisabled={name.trim().length === 0}>Add Hobby</Button>
@@ -134,11 +138,7 @@
 				{:else}
 					{#each hobbies as hobby}
 						<Hobby
-							id={hobby.id} 
-							name={hobby.name} 
-							weight={hobby.weight} 
-							description={hobby.description} 
-							look={hobby.look}
+							hobby={hobby}
 							deleteHobby={deleteHobby} 
 							editMode = {() => editMode(hobby.id)} />
 					{/each}
@@ -188,6 +188,9 @@
 
 	.hobby-form {
 		padding: 1rem;
+		background-color: #ebebeb;
+		max-height: 381px;
+    	min-width: 320px;
 	}
 	.hobby-list {
 		display: flex;
