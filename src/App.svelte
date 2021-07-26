@@ -188,6 +188,9 @@
 
 	.hobby-form {
 		padding: 1rem;
+		background-color: #ebebeb;
+		max-height: 381px;
+    	min-width: 320px;
 	}
 	.hobby-list {
 		display: flex;

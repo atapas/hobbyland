@@ -8,14 +8,6 @@
     export let look = {background: '#fff', color: '#000'};
     export let deleteHobby;
     export let editMode;
-
-    const getWeightSymbols = weight => {
-        let arr = [];
-        arr.length = weight;
-        return arr;
-    }
-
-    let weightArray = getWeightSymbols(weight);
 </script>
 
 <div class="hobby" style="background-color: {look.background}; color: {look.color};">
@@ -26,9 +18,11 @@
     <span hidden>{id}</span>
     <h3><b>{name}</b></h3>
     <p>{description}</p>
-    {#each weightArray as index}
-        <span class="weight"><ThumbsUpIcon size="24" /></span>
-    {/each}
+    <div>
+        {#each new Array(weight) as index}
+            <span class="weight"><ThumbsUpIcon size="24" /></span>
+        {/each}
+    </div>
 </div>
 
 
@@ -46,11 +40,14 @@
         border: 1px solid #ececec;
         border-radius: .5rem;
         width: 20rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
     .actions {
-        margin: 0 0 1rem 0;
-        float: right;
+        justify-content: flex-end;
+        display: flex;
     }
 
     .actions span {
