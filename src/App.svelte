@@ -7,7 +7,7 @@
 
 	let id;
 	let name = '';
-    let weight = 1;
+    let weight = 3;
     let description = '';
     let hobbies = JSON.parse(readFromLS('hobbies')) || [];
 	let isEditMode = false;

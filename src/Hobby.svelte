@@ -1,4 +1,6 @@
 <script>
+    import { EditIcon, XCircleIcon, ThumbsUpIcon } from 'svelte-feather-icons';
+
     export let id;
     export let name;
     export let description;
@@ -6,17 +8,27 @@
     export let look = {background: '#fff', color: '#000'};
     export let deleteHobby;
     export let editMode;
+
+    const getWeightSymbols = weight => {
+        let arr = [];
+        arr.length = weight;
+        return arr;
+    }
+
+    let weightArray = getWeightSymbols(weight);
 </script>
 
 <div class="hobby" style="background-color: {look.background}; color: {look.color};">
     <div class="actions">
-        <span on:click={() => editMode(name)}>E</span>
-        <span on:click={() => deleteHobby(name)}>X</span>
+        <span on:click={() => editMode(name)}><EditIcon size="24" /></span>
+        <span on:click={() => deleteHobby(name)}><XCircleIcon size="24" /></span>
     </div>
     <span hidden>{id}</span>
-    <h3>{name}</h3>
+    <h3><b>{name}</b></h3>
     <p>{description}</p>
-    <span>{weight}</span>
+    {#each weightArray as index}
+        <span class="weight"><ThumbsUpIcon size="24" /></span>
+    {/each}
 </div>
 
 
@@ -33,6 +45,7 @@
         margin: 1rem;
         border: 1px solid #ececec;
         border-radius: .5rem;
+        width: 20rem;
     }
 
     .actions {
@@ -43,5 +56,9 @@
     .actions span {
         padding: 0 0 0 .5rem;
         cursor: pointer;
+    }
+
+    .weight {
+        margin-right: 0.2rem;
     }
 </style>
