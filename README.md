@@ -2,6 +2,10 @@
 
 `Hobby Land` is a learn and do project built using tye super cool `svelte`. You can add and track your hobbies, edit them, and also remove them when not needed. The code is opensource. Please feel free to clone/fork/change/use.
 
+<p align="center">
+    <img src='./public/screen.gif' alt='screen' />
+</p>
+
 ## Get started
 
 Install the dependencies...
