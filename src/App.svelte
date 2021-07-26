@@ -1,4 +1,6 @@
 <script>
+	import { onMount } from 'svelte';
+
 	import Hobby from './Hobby.svelte';
 	import Button from './Button.svelte';
 
@@ -11,7 +13,12 @@
     let description = '';
     let hobbies = JSON.parse(readFromLS('hobbies')) || [];
 	let isEditMode = false;
+	let elmToFocus;
 	console.log(hobbies);
+
+	onMount(function() {
+        elmToFocus.focus();
+    });
 
 	const getHobbyLook = (weight) => {
 		let background = '#ff6b6b';
@@ -94,47 +101,50 @@
 
 <main>
 	<h1>Welcome to the Hobby Land</h1>
-	<h2>Track Your Hobbies to Get Better</h2>
-
-	<section>
-		<div> 
-			<label for="name"></label>
-			<input type="text" id="name" bind:value={name} placeholder="What's your Hobby?"/>
+	<div class="container">
+		<div class="hobby-form">
+			<div> 
+				<label for="name"></label>
+				<input type="text" id="name" bind:value={name} placeholder="What's your Hobby?" bind:this={elmToFocus} />
+			</div>
+			<div>
+				<label for="description"></label>
+				<textarea rows="3" cols="35" id="description" bind:value ={description}  placeholder="Tell us a bit more about it"/>
+			</div>
+			<div class="weight-div">
+				<label for="weight">How serious are you about it?(1 - Least to 10 - Most)</label>
+				<input type="range" min="1" max="10" id="weight" bind:value={weight} />
+				<p style="background-color: {getHobbyLook(weight).background}; color: {getHobbyLook(weight).color};">{weight}</p>
+			</div>
+			{#if isEditMode}
+				<Button on:click={cancelEdit} negative={true}>Cancel</Button>
+				<Button on:click={addHobby}>Edit Hobby</Button>
+			{:else}
+				<Button on:click={addHobby} isDisabled={name.trim().length === 0}>Add Hobby</Button>
+			{/if}
 		</div>
 		<div>
-			<label for="description"></label>
-			<textarea rows="3" cols="35" id="description" bind:value ={description}  placeholder="Tell us a bit more about it"/>
+			<h2>Hobbies</h2>
+			<h3>Track Your Hobbies to Get Better</h3>
+			<div class="hobby-list">
+				{#if hobbies.length === 0}
+					<p class="no-hobby">
+						No Hobbies? Oh dear, please add one to track. 
+					</p>
+				{:else}
+					{#each hobbies as hobby}
+						<Hobby
+							id={hobby.id} 
+							name={hobby.name} 
+							weight={hobby.weight} 
+							description={hobby.description} 
+							look={hobby.look}
+							deleteHobby={deleteHobby} 
+							editMode = {() => editMode(hobby.id)} />
+					{/each}
+				{/if}
+			</div>
 		</div>
-		<div class="weight-div">
-			<label for="weight">How serious are you about it?(1 - Least to 10 - Most)</label>
-			<input type="range" min="1" max="10" id="weight" bind:value={weight} />
-			<p style="background-color: {getHobbyLook(weight).background}; color: {getHobbyLook(weight).color};">{weight}</p>
-		</div>
-		{#if isEditMode}
-			<Button on:click={cancelEdit} negative={true}>Cancel</Button>
-			<Button on:click={addHobby}>Edit Hobby</Button>
-		{:else}
-			<Button on:click={addHobby} isDisabled={name.trim().length === 0}>Add Hobby</Button>
-		{/if}
-	</section>
-	<hr />
-	<div class="hobby-list">
-		{#if hobbies.length === 0}
-			<p class="no-hobby">
-				No Hobbies? Oh dear, please add one to track. 
-			</p>
-		{:else}
-			{#each hobbies as hobby}
-				<Hobby
-					id={hobby.id} 
-					name={hobby.name} 
-					weight={hobby.weight} 
-					description={hobby.description} 
-					look={hobby.look}
-					deleteHobby={deleteHobby} 
-					editMode = {() => editMode(hobby.id)} />
-			{/each}
-		{/if}
 	</div>
 	<footer>
 		<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
@@ -145,8 +155,7 @@
 	main {
 		text-align: center;
 		padding: 1em;
-		max-width: 240px;
-		margin: 0 auto;
+		margin: 0;
 	}
 
 	h1 {
@@ -161,6 +170,25 @@
 		margin: 0.5rem;
 	}
 
+	textarea { 
+		width: 100%;
+	}
+
+	.container {
+		display: flex;
+		justify-content: space-around;
+		margin: 1rem auto auto auto;
+	}
+
+	@media screen and (max-width: 720px) {
+		.container {
+			flex-direction: column;
+		}
+	}
+
+	.hobby-form {
+		padding: 1rem;
+	}
 	.hobby-list {
 		display: flex;
 		flex-direction: row;
@@ -197,10 +225,10 @@
 	input[type="range"] {
 		padding: 0;
 		margin-top: 0.4em;
-		width: 200px;
+		width: 100%;
 	}
 	input[type="text"] {
-		width: 277px;
+		width: 100%;
 	}
 	@media (min-width: 640px) {
 		main {
