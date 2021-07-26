@@ -1,15 +1,14 @@
 <style>
     button{
-          background-color: #1b1a1a;
-          border: 1px solid  aliceblue ;
+          background-color: #0064c8e0;
+          border: 1px solid  #0064c8e0 ;
           cursor: pointer;
-          color: white;
+          color: #FFF;
           border-radius: 0.25rem;
           text-transform: uppercase;
       }
   
   </style>
-  
   
   <button on:click >
       <slot/>

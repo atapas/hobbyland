@@ -2,22 +2,24 @@
 	import Hobby from './Hobby.svelte';
 	import Button from './Button.svelte';
 
+	import { saveToLS, readFromLS } from './storage';
+
 	let name = '';
     let weight = 1;
     let description = '';
-    let hobbies =[];
+    let hobbies = JSON.parse(readFromLS('hobbies')) || [];
+	console.log(hobbies);
 
 	const getHobbyLook = (weight) => {
-		let background = '#ed4747';
-		let color = '#000';
+		let background = '#ff6b6b';
+		let color = '#FFFFFF';
 
 		if (weight > 3 && weight <= 6) {
-			background = 'yellow';
+			background = '#efef04';
 			color = '#000';
 		} else if (weight > 6) {
-		
 			background = '#0eb30e';
-			color = '#000';
+			color = '#FFFFFF';
 		}
 
 		return {background: background, color: color};
@@ -32,6 +34,7 @@
 			look: look
         };
         hobbies = hobbies.concat(newBook);
+		saveToLS('hobbies', hobbies);
     }
 
 	const deleteHobby = name => {
@@ -42,6 +45,7 @@
 		hobbies.splice(index, 1);
 		hobbies = [...hobbies];
 		console.log('hobbies after delete', hobbies);
+		saveToLS('hobbies', hobbies);
 	};
 </script>
 
@@ -65,6 +69,7 @@
 		</div>
 		<Button on:click={addHobby}>Add Hobby</Button>
 	</section>
+	<hr />
 	<div class="hobby-list">
 		{#if hobbies.length === 0}
 			<p class="no-hobby">
