@@ -16,8 +16,8 @@
 
 <div class="hobby" style="background-color: {hobby.look.background}; color: {hobby.look.color};">
     <div class="actions">
-        <span on:click={() => editMode(hobby.name)}><EditIcon size="24" /></span>
-        <span on:click={() => deleteHobby(hobby.name)}><XCircleIcon size="24" /></span>
+        <span on:click={editMode}><EditIcon size="24" /></span>
+        <span on:click={deleteHobby}><XCircleIcon size="24" /></span>
     </div>
     <span hidden>{hobby.id}</span>
     <h3><b>{hobby.name}</b></h3>

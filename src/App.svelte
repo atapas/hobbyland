@@ -92,7 +92,7 @@
 	const reset = () => {
 		id = '';
 		name = '';
-		weight = 1;
+		weight = 3;
 		description = '';
 		isEditMode = false;
 	}
