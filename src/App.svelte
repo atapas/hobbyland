@@ -3,11 +3,14 @@
 	import Button from './Button.svelte';
 
 	import { saveToLS, readFromLS } from './storage';
+	import { generate } from 'shortid';
 
+	let id;
 	let name = '';
     let weight = 1;
     let description = '';
     let hobbies = JSON.parse(readFromLS('hobbies')) || [];
+	let isEditMode = false;
 	console.log(hobbies);
 
 	const getHobbyLook = (weight) => {
@@ -27,14 +30,21 @@
 
     const addHobby = () => {
 		const look = getHobbyLook(weight);
-        const newBook = {
-            name : name,
-            weight : weight,
-            description: description,
-			look: look
-        };
-        hobbies = hobbies.concat(newBook);
-		saveToLS('hobbies', hobbies);
+		
+		if (isEditMode) {
+			editHobby(id, name, weight, description, look);
+			isEditMode = false;
+		} else {
+			const hobby = {
+				id: generate(),
+				name : name,
+				weight : weight,
+				description: description,
+				look: look
+			};
+			hobbies = hobbies.concat(hobby);
+			saveToLS('hobbies', hobbies);
+		}
     }
 
 	const deleteHobby = name => {
@@ -47,6 +57,39 @@
 		console.log('hobbies after delete', hobbies);
 		saveToLS('hobbies', hobbies);
 	};
+
+	const editHobby = (id, newName, newWeight, newDescription, newLook) => {
+		console.log('hobby to edit', name);
+		//find hobby by name
+		let index = hobbies.findIndex(hobby => hobby.id === id);
+		//edit hobby
+		hobbies[index].name = newName;
+		hobbies[index].weight = newWeight;
+		hobbies[index].description = newDescription;
+		hobbies[index].look = newLook;
+		hobbies = [...hobbies];
+		console.log('hobbies after edit', hobbies);
+		saveToLS('hobbies', hobbies);
+	};
+
+	const editMode = (hobbyId) => {
+		console.log('hobby to edit', name);
+		//find hobby by name
+		let hobby = hobbies.find(hobby => hobby.id === hobbyId);
+		id = hobby.id;
+		name = hobby.name;
+		weight = hobby.weight;
+		description = hobby.description;
+		isEditMode = true;
+	}
+
+	const cancelEdit = () => {
+		id = '';
+		name = '';
+		weight = 1;
+		description = '';
+		isEditMode = false;
+	}
 </script>
 
 <main>
@@ -67,7 +110,12 @@
 			<input type="range" min="1" max="10" id="weight" bind:value={weight} />
 			<p style="background-color: {getHobbyLook(weight).background}; color: {getHobbyLook(weight).color};">{weight}</p>
 		</div>
-		<Button on:click={addHobby}>Add Hobby</Button>
+		{#if isEditMode}
+			<Button on:click={cancelEdit} negative={true}>Cancel</Button>
+			<Button on:click={addHobby}>Edit Hobby</Button>
+		{:else}
+			<Button on:click={addHobby} isDisabled={name.trim().length === 0}>Add Hobby</Button>
+		{/if}
 	</section>
 	<hr />
 	<div class="hobby-list">
@@ -77,12 +125,14 @@
 			</p>
 		{:else}
 			{#each hobbies as hobby}
-				<Hobby 
+				<Hobby
+					id={hobby.id} 
 					name={hobby.name} 
 					weight={hobby.weight} 
 					description={hobby.description} 
 					look={hobby.look}
-					deleteHobby={deleteHobby} />
+					deleteHobby={deleteHobby} 
+					editMode = {() => editMode(hobby.id)} />
 			{/each}
 		{/if}
 	</div>
@@ -104,6 +154,7 @@
 		text-transform: uppercase;
 		font-size: 4em;
 		font-weight: 100;
+		margin: 0;
 	}
 
 	p {
@@ -156,4 +207,5 @@
 			max-width: none;
 		}
 	}
+	
 </style>
