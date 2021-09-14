@@ -147,7 +147,7 @@
 		</div>
 	</div>
 	<footer>
-		<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
+		<p>Made with ❤️ by <a href="https://twitter.com/tapasadhikary">Tapas Adhikary</a>.</p>
 	</footer>
 </main>
 
