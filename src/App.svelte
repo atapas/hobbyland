@@ -220,7 +220,7 @@
 		width: 2rem;
 		height: 2rem;
 		border: 1px solid #000;
-		border-radius: 29px;
+		border-radius: 35px;
 		padding: 1rem;
 		font-size: 1.5rem;
 	}

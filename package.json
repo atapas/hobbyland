@@ -19,6 +19,7 @@
     "svelte-feather-icons": "^3.5.0"
   },
   "dependencies": {
+    "@bugfender/sdk": "^1.5.0",
     "shortid": "^2.2.16",
     "sirv-cli": "^1.0.0"
   }
