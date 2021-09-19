@@ -54,14 +54,14 @@
 		}
     }
 
-	const deleteHobby = name => {
-		console.log('hobby to delete', name);
+	const deleteHobby = id => {
+		console.log('hobby to delete', id);
 		//find hobby by name
-		let index = hobbies.findIndex(hobby => hobby.name === name);
+		let index = hobbies.findIndex(hobby => hobby.id === id);
 		//remove hobby
 		hobbies.splice(index, 1);
 		hobbies = [...hobbies];
-		console.log('hobbies after delete', hobbies);
+		console.log('hobbies after delete', JSON.stringify(hobbies));
 		resetAndSave(hobbies);
 	};
 
@@ -139,7 +139,7 @@
 					{#each hobbies as hobby}
 						<Hobby
 							hobby={hobby}
-							deleteHobby={deleteHobby} 
+							deleteHobby={() => deleteHobby(hobby.id)} 
 							editMode = {() => editMode(hobby.id)} />
 					{/each}
 				{/if}
